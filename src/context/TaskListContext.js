@@ -6,7 +6,7 @@ const ADD_TASK = "ADD_TASK";
 const REMOVE_TASK = "REMOVE_TASK";
 const CHECK_TASK = "CHECK_TASK";
 
-//const initialState = getState() || [];
+const initialState = getState() || [];
 
 export const context = createContext({ taskList: initialState });
 const { Provider, Consumer } = context;
@@ -39,25 +39,22 @@ const taskReducer = (state = initialState, action) => {
         text: action.task.text,
         id,
       };
-      let index = state.findIndex(({ id }) => id === editTask.id);
-      state.splice(index, 1, editTask);
-      saveState(state);
-      return state;
+      let changedState = state.filter(({ id }) => id !== action.task.id);
+      let result = isDone
+        ? [...changedState, editTask]
+        : [editTask, ...changedState];
+      saveState(result);
+      return result;
     default:
       return state;
   }
 };
 const TaskProvider = ({ children }) => {
-  const [initialState, setInitialState] = useState([]);
   const [state, dispatch] = useReducer(taskReducer, initialState);
   const addTask = (task) => dispatch({ type: ADD_TASK, task: task });
   const removeTask = (taskId) =>
     dispatch({ type: REMOVE_TASK, taskId: taskId });
   const checkTask = (task) => dispatch({ type: CHECK_TASK, task: task });
-  useEffect(() => {
-    const initialState = getState() || [];
-    setInitialState(initialState);
-  }, [initialState]);
   return (
     <Provider
       value={{

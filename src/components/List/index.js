@@ -16,14 +16,7 @@ const List = () => {
   }, [listContext.taskList]);
   const listMemo = useMemo(() => {
     return listContext.taskList.map(({ text, id, isDone }) => (
-      <Task
-        key={id}
-        onDelete={listContext.removeTask}
-        onSave={listContext.addTask}
-        onCheck={listContext.checkTask}
-        isDone={isDone}
-        id={id}
-      >
+      <Task key={id} isDone={isDone} id={id}>
         {text}
       </Task>
     ));

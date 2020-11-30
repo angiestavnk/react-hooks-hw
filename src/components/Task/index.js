@@ -35,7 +35,7 @@ const Task = (props) => {
         alert("Already exist");
       } else {
         const { id } = props;
-        props.onSave({ id, text: editValue });
+        taskContext.addTask({ id, text: editValue });
         setEditValue("");
         setIsEdit(false);
       }
@@ -43,11 +43,11 @@ const Task = (props) => {
   };
 
   const checkStatus = () => {
-    onCheck({ text: children, isDone: !isDone, id: id });
+    taskContext.checkTask({ text: children, isDone: !isDone, id: id });
     setIsDone(!isDone);
   };
 
-  const { onDelete, children, id, onCheck } = props;
+  const { children, id } = props;
 
   return (
     <StyledTask>
@@ -67,7 +67,7 @@ const Task = (props) => {
             <StyledButton onClick={onEditPress}>
               <StyledEdit />
             </StyledButton>
-            <StyledButton onClick={() => onDelete(id)}>
+            <StyledButton onClick={() => taskContext.removeTask(id)}>
               <StyledDelete />
             </StyledButton>
             <StyledButton onClick={checkStatus}>
