@@ -1,42 +1,32 @@
-import React, { Component } from 'react';
-import Input from 'components/Input';
-import { TaskListConsumer } from 'context/taskList.context';
+import React, { useContext, useState } from "react";
+import Input from "components/Input";
 
-import { StyledForm, StyledAddButton } from './styles';
+import { StyledForm, StyledAddButton } from "./styles";
+import { context } from "../../context/TaskListContext";
 
-class Form extends Component {
-    state = {
-        inputValue: '',
-    };
+const Form = () => {
+  const [inputValue, setInputValue] = useState("");
+  const formContext = useContext(context);
+  const onChange = (value) => setInputValue(value);
 
-    onChange = (value) => this.setState({ inputValue: value });
-
-    addTask = (e) => {
-        e.preventDefault();
-        const { inputValue } = this.state;
-
-        if (inputValue) {
-            this.props.addTask({ text: inputValue });
-            this.setState({ inputValue: '' });
-        }
-    };
-
-    render() {
-        const { inputValue } = this.state;
-        const isTaskExists = this.props.taskList.some(({ text }) => inputValue === text);
-
-        return (
-            <StyledForm onSubmit={this.addTask}>
-                <Input value={inputValue} onChange={this.onChange} />
-
-                <StyledAddButton disabled={isTaskExists || !this.state.inputValue}>ADD TASK</StyledAddButton>
-            </StyledForm>
-        );
+  const addTask = (e) => {
+    e.preventDefault();
+    if (inputValue) {
+      formContext.addTask({ text: inputValue });
+      setInputValue("");
     }
-}
+  };
+  const isTaskExists = formContext.taskList.some(
+    ({ text }) => inputValue === text
+  );
 
-export default (componentProps) => (
-    <TaskListConsumer>
-        {props => <Form {...props} {...componentProps} />}
-    </TaskListConsumer>
-);
+  return (
+    <StyledForm onSubmit={addTask}>
+      <Input value={inputValue} onChange={onChange} />
+      <StyledAddButton disabled={isTaskExists || !inputValue}>
+        ADD TASK
+      </StyledAddButton>
+    </StyledForm>
+  );
+};
+export default Form;
