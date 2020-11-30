@@ -39,10 +39,12 @@ const Task = (props) => {
       }
     }
   };
-  const blaBla = () => {
+
+  const checkStatus = () => {
     onCheck({ text: children, isDone: !isDone, id: id });
     setIsDone(!isDone);
   };
+
   const { onDelete, children, id, onCheck } = props;
 
   return (
@@ -66,7 +68,7 @@ const Task = (props) => {
             <StyledButton onClick={() => onDelete(id)}>
               <StyledDelete />
             </StyledButton>
-            <StyledButton onClick={blaBla}>
+            <StyledButton onClick={checkStatus}>
               {isDone ? <StyledCheck /> : <StyledNotCheck />}
             </StyledButton>
           </StyledButtonsWrapper>

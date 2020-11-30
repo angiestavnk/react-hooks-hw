@@ -8,11 +8,9 @@ import Form from "components/Form";
 
 import { StyledWrapper } from "./styles";
 
-const defaultStateValue = getState() || [];
-
 const HomePage = () => {
   return (
-    <TaskProvider defaultState={defaultStateValue}>
+    <TaskProvider>
       <StyledWrapper>
         <Form />
         <List />

@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { StyledLabel, StyledInput } from "./styles";
 
 const Input = (props) => {
-  const onChange = ({ currentTarget: { value } }) => props.onChange(value);
+  const onChange = useCallback(
+    ({ currentTarget: { value } }) => props.onChange(value),
+    []
+  );
 
   const { value, placeholder, label, disabled = false, type = "text" } = props;
 

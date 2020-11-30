@@ -27,7 +27,7 @@ const List = () => {
         {text}
       </Task>
     ));
-  });
+  }, [listContext.taskList]);
   return (
     <StyledList ref={listRef}>
       {listMemo}
