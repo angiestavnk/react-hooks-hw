@@ -28,7 +28,9 @@ const Task = (props) => {
   const onSaveEdit = (e) => {
     e.preventDefault();
     if (editValue) {
-      const exist = taskContext.taskList.some(({ text }) => text === editValue);
+      const exist = taskContext.taskList.some(
+        ({ text }) => text === editValue && editValue !== props.children
+      );
       if (exist) {
         alert("Already exist");
       } else {
