@@ -1,4 +1,4 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer, useState } from "react";
 import { v4 } from "uuid";
 import { getState, saveState } from "../utils/localStorage";
 
@@ -6,7 +6,7 @@ const ADD_TASK = "ADD_TASK";
 const REMOVE_TASK = "REMOVE_TASK";
 const CHECK_TASK = "CHECK_TASK";
 
-const initialState = getState() || [];
+//const initialState = getState() || [];
 
 export const context = createContext({ taskList: initialState });
 const { Provider, Consumer } = context;
@@ -48,11 +48,16 @@ const taskReducer = (state = initialState, action) => {
   }
 };
 const TaskProvider = ({ children }) => {
+  const [initialState, setInitialState] = useState([]);
   const [state, dispatch] = useReducer(taskReducer, initialState);
   const addTask = (task) => dispatch({ type: ADD_TASK, task: task });
   const removeTask = (taskId) =>
     dispatch({ type: REMOVE_TASK, taskId: taskId });
   const checkTask = (task) => dispatch({ type: CHECK_TASK, task: task });
+  useEffect(() => {
+    const initialState = getState() || [];
+    setInitialState(initialState);
+  }, [initialState]);
   return (
     <Provider
       value={{
