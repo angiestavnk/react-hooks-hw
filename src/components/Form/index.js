@@ -1,29 +1,27 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useMemo, useState } from "react";
 import Input from "components/Input";
+import useInput from "../hooks/useInput";
 
 import { StyledForm, StyledAddButton } from "./styles";
 import { context } from "../../context/TaskListContext";
 
 const Form = () => {
-  const [inputValue, setInputValue] = useState("");
+  const [task, setTask, resetTask] = useInput("");
   const formContext = useContext(context);
-  const onChange = (value) => setInputValue(value);
 
   const addTask = (e) => {
     e.preventDefault();
-    if (inputValue) {
-      formContext.addTask({ text: inputValue });
-      setInputValue("");
+    if (task) {
+      formContext.addTask({ text: task });
+      resetTask();
     }
   };
-  const isTaskExists = formContext.taskList.some(
-    ({ text }) => inputValue === text
-  );
+  const isTaskExists = formContext.taskList.some(({ text }) => task === text);
 
   return (
     <StyledForm onSubmit={addTask}>
-      <Input value={inputValue} onChange={onChange} />
-      <StyledAddButton disabled={isTaskExists || !inputValue}>
+      <Input value={task} onChange={setTask} />
+      <StyledAddButton disabled={isTaskExists || !task}>
         ADD TASK
       </StyledAddButton>
     </StyledForm>

@@ -7,7 +7,7 @@ import { context } from "../../context/TaskListContext";
 const List = () => {
   const listContext = useContext(context);
   const [height, setHeight] = useState(0);
-  let listRef = useRef(null);
+  const listRef = useRef(null);
   useEffect(() => {
     const newHeight = listRef.current && listRef.current.offsetHeight;
     if (newHeight && height !== newHeight) {
@@ -16,7 +16,7 @@ const List = () => {
   }, [listContext.taskList]);
   const listMemo = useMemo(() => {
     return listContext.taskList.map(({ text, id, isDone }) => (
-      <Task key={id} isDone={isDone} id={id}>
+      <Task key={id} isDone={isDone} id={id} text={text}>
         {text}
       </Task>
     ));

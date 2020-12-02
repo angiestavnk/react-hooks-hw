@@ -21,7 +21,7 @@ const Task = (props) => {
   const onEditChange = useCallback((event) => setEditValue(event), []);
   const taskContext = useContext(context);
   const onEditPress = () => {
-    setEditValue(props.children);
+    setEditValue(props.text);
     setIsEdit(true);
   };
 
@@ -29,7 +29,7 @@ const Task = (props) => {
     e.preventDefault();
     if (editValue) {
       const exist = taskContext.taskList.some(
-        ({ text }) => text === editValue && editValue !== props.children
+        ({ text }) => text === editValue && editValue !== props.text
       );
       if (exist) {
         alert("Already exist");
@@ -43,11 +43,11 @@ const Task = (props) => {
   };
 
   const checkStatus = () => {
-    taskContext.checkTask({ text: children, isDone: !isDone, id: id });
+    taskContext.checkTask({ text: text, isDone: !isDone, id: id });
     setIsDone(!isDone);
   };
 
-  const { children, id } = props;
+  const { children, text, id } = props;
 
   return (
     <StyledTask>

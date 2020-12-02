@@ -13,7 +13,7 @@ const Input = (props) => {
     <StyledLabel>
       {label && <span>{label}</span>}
       <StyledInput
-        autoFocus={true}
+        autoFocus
         {...{ value, placeholder, type, disabled, onChange: onChange }}
       />
     </StyledLabel>

@@ -9,38 +9,38 @@ const CHECK_TASK = "CHECK_TASK";
 const initialState = getState() || [];
 
 export const context = createContext({ taskList: initialState });
-const { Provider, Consumer } = context;
+const { Provider } = context;
 
 const taskReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_TASK:
-      let taskId = action.task.id
+      const taskId = action.task.id
         ? state.find(({ id: taskId }) => taskId === action.task.id)
         : { id: v4() };
-      let text = action.task.text;
-      let task = {
+      const text = action.task.text;
+      const task = {
         ...taskId,
         text,
         isDone: false,
       };
-      let filteredState = state.filter(({ id }) => id !== action.task.id);
+      const filteredState = state.filter(({ id }) => id !== action.task.id);
       saveState([task, ...filteredState]);
       return [task, ...filteredState];
 
     case REMOVE_TASK:
-      let filtredState = state.filter(({ id }) => id !== action.taskId);
+      const filtredState = state.filter(({ id }) => id !== action.taskId);
       saveState(filtredState);
       return filtredState;
     case CHECK_TASK:
-      let isDone = action.task.isDone;
-      let id = action.task.id;
-      let editTask = {
+      const isDone = action.task.isDone;
+      const id = action.task.id;
+      const editTask = {
         isDone,
         text: action.task.text,
         id,
       };
-      let changedState = state.filter(({ id }) => id !== action.task.id);
-      let result = isDone
+      const changedState = state.filter(({ id }) => id !== action.task.id);
+      const result = isDone
         ? [...changedState, editTask]
         : [editTask, ...changedState];
       saveState(result);
