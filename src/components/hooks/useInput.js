@@ -1,15 +1,9 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 const useInput = (initialValue) => {
-  const [state, setState] = useState(initialValue);
+  const [state, handleChange] = useState(initialValue);
 
-  const handleChange = (value) => {
-    setState(value);
-  };
-
-  const reset = () => {
-    setState("");
-  };
+  const reset = useCallback(() => handleChange(""), []);
 
   return [state, handleChange, reset];
 };

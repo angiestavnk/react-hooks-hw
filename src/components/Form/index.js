@@ -18,7 +18,7 @@ const Form = () => {
   };
   const isTaskExists = useMemo(() => {
     return formContext.taskList.some(({ text }) => task === text);
-  }, [task]);
+  }, [formContext.taskList, task]);
 
   return (
     <StyledForm onSubmit={addTask}>

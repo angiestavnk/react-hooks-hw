@@ -32,17 +32,11 @@ const taskReducer = (state = initialState, action) => {
       saveState(filtredState);
       return filtredState;
     case CHECK_TASK:
-      const isDone = action.task.isDone;
-      const id = action.task.id;
-      const editTask = {
-        isDone,
-        text: action.task.text,
-        id,
-      };
-      const changedState = state.filter(({ id }) => id !== action.task.id);
+      const { isDone, id: checkId } = action.task;
+      const changedState = state.filter(({ id }) => id !== checkId);
       const result = isDone
-        ? [...changedState, editTask]
-        : [editTask, ...changedState];
+        ? [...changedState, action.task]
+        : [action.task, ...changedState];
       saveState(result);
       return result;
     default:

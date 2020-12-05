@@ -47,6 +47,8 @@ const Task = (props) => {
     setIsDone(!isDone);
   };
 
+  const onRemove = useCallback(() => taskContext.removeTask(id), []);
+
   const { children, text, id } = props;
 
   return (
@@ -61,13 +63,17 @@ const Task = (props) => {
         </StyledEditForm>
       ) : (
         <Fragment>
-          <StyledText>{children}</StyledText>
+          <StyledText
+            style={{ textDecoration: isDone ? "line-through" : "none" }}
+          >
+            {children}
+          </StyledText>
 
           <StyledButtonsWrapper>
             <StyledButton onClick={onEditPress}>
               <StyledEdit />
             </StyledButton>
-            <StyledButton onClick={() => taskContext.removeTask(id)}>
+            <StyledButton onClick={onRemove}>
               <StyledDelete />
             </StyledButton>
             <StyledButton onClick={checkStatus}>

@@ -3,17 +3,13 @@ import Task from "components/Task";
 
 import { StyledHeight, StyledList } from "./styles";
 import { context } from "../../context/TaskListContext";
+import useHeight from "../hooks/useHeight";
 
 const List = () => {
   const listContext = useContext(context);
-  const [height, setHeight] = useState(0);
   const listRef = useRef(null);
-  useEffect(() => {
-    const newHeight = listRef.current && listRef.current.offsetHeight;
-    if (newHeight && height !== newHeight) {
-      setHeight(newHeight);
-    }
-  }, [listContext.taskList]);
+  const height = useHeight(listRef, listContext.taskList);
+
   const listMemo = useMemo(() => {
     return listContext.taskList.map(({ text, id, isDone }) => (
       <Task key={id} isDone={isDone} id={id} text={text}>
