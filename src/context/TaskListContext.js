@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useReducer, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { v4 } from "uuid";
 import { getState, saveState } from "../utils/localStorage";
 
@@ -32,7 +38,7 @@ const taskReducer = (state = initialState, action) => {
       saveState(filtredState);
       return filtredState;
     case CHECK_TASK:
-      const { isDone, id: checkId } = action.task;
+      const { task: { isDone, id: checkId } = {} } = action;
       const changedState = state.filter(({ id }) => id !== checkId);
       const result = isDone
         ? [...changedState, action.task]
@@ -45,10 +51,18 @@ const taskReducer = (state = initialState, action) => {
 };
 const TaskProvider = ({ children }) => {
   const [state, dispatch] = useReducer(taskReducer, initialState);
-  const addTask = (task) => dispatch({ type: ADD_TASK, task: task });
-  const removeTask = (taskId) =>
-    dispatch({ type: REMOVE_TASK, taskId: taskId });
-  const checkTask = (task) => dispatch({ type: CHECK_TASK, task: task });
+  const addTask = useCallback(
+    (task) => dispatch({ type: ADD_TASK, task: task }),
+    []
+  );
+  const removeTask = useCallback(
+    (taskId) => dispatch({ type: REMOVE_TASK, taskId: taskId }),
+    []
+  );
+  const checkTask = useCallback(
+    (task) => dispatch({ type: CHECK_TASK, task: task }),
+    []
+  );
   return (
     <Provider
       value={{

@@ -18,7 +18,7 @@ const Task = (props) => {
   const [editValue, setEditValue] = useState("");
   const [isEdit, setIsEdit] = useState(false);
   const [isDone, setIsDone] = useState(props.isDone);
-  const onEditChange = useCallback((event) => setEditValue(event), []);
+  // const onEditChange = useCallback((event) => setEditValue(event), []);
   const taskContext = useContext(context);
   const onEditPress = () => {
     setEditValue(props.text);
@@ -56,7 +56,7 @@ const Task = (props) => {
       {isEdit ? (
         <StyledEditForm onSubmit={onSaveEdit} onBlur={onSaveEdit}>
           <Input
-            onChange={onEditChange}
+            onChange={setEditValue}
             value={editValue}
             placeholder="Task must contain title"
           />
